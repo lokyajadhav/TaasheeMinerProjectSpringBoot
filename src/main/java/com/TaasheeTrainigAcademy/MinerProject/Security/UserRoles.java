@@ -16,7 +16,7 @@ public enum UserRoles {
 	 private Set<UserPermissions> permission;
 
 	private UserRoles(Set<UserPermissions> permission) {
-		this.permission = permission;
+		this.permission = permission; 
 	}
 
 	public Set<UserPermissions> getPermission() {

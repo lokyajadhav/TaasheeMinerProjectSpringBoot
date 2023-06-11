@@ -56,24 +56,24 @@
  </c:if>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label"> Name</label>
-    <input type="text" name="name" class="form-control" id="exampleInputPassword1" value="<c:out value='${User.name}'/>" >
+    <input type="text" name="name" class="form-control" id="exampleInputPassword1" required value="<c:out value='${User.name}'/>" >
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label"> City</label>
-    <input type="text" name="city" class="form-control" id="exampleInputPassword1" value="<c:out value='${User.city}'/>">
+    <input type="text" name="city" class="form-control" id="exampleInputPassword1" required value="<c:out value='${User.city}'/>">
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label"> Age</label>
-    <input type="text" name="age" class="form-control" id="exampleInputPassword1" value="<c:out value='${User.age}'/>">
+    <input type="text" name="age" class="form-control" id="exampleInputPassword1" required value="<c:out value='${User.age}'/>">
   </div>
   <c:if test="${User==null }">
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">userName</label>
-    <input type="text" name="username" class="form-control" id="exampleInputPassword1" value="<c:out value='${User.username}'/>">
+    <input type="text" name="username" class="form-control" id="exampleInputPassword1" required value="<c:out value='${User.username}'/>">
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="text" name="password" class="form-control" id="exampleInputPassword1" value="<c:out value='${User.password}'/>">
+    <input type="text" name="password" class="form-control" id="exampleInputPassword1" required value="<c:out value='${User.password}'/>">
   </div>
   </c:if>
   <button type="submit" class="btn btn-primary">Submit</button>

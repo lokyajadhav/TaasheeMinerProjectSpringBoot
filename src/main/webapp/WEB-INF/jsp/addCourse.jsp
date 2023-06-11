@@ -39,16 +39,16 @@
     <form action="updateCourse" method="post" class="mx-auto p-5 mx-auto mt-5 shadow-sm p-3 mb-5 bg-body-tertiary rounded" style="width: 600px">
     <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Course Id</label>
-    <input type="text" name="id" class="form-control" id="exampleInputPassword1" value='<c:out value="${Course.id }"></c:out>'>
+    <input type="text" name="id" class="form-control" id="exampleInputPassword1" required value='<c:out value="${Course.id }"></c:out>'>
   </div>
     </c:if>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Course Name</label>
-    <input type="text" name="name" class="form-control" id="exampleInputPassword1" value='<c:out value="${Course.name }"></c:out>'>
+    <input type="text" name="name" class="form-control" id="exampleInputPassword1" required value='<c:out value="${Course.name }"></c:out>'>
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Course Description</label>
-    <input type="text" name="description" class="form-control" id="exampleInputPassword1" value='<c:out value="${Course.description }"></c:out>'>
+    <input type="text" name="description" class="form-control" id="exampleInputPassword1" required value='<c:out value="${Course.description }"></c:out>'>
   </div>
   <c:if test="${Course==null }">
   <button type="submit" class="btn btn-primary">Add Course</button>

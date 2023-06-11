@@ -3,8 +3,8 @@ package com.TaasheeTrainigAcademy.MinerProject.Controllers;
 import java.security.Principal;
 import java.util.List;
 
-import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.TaasheeTrainigAcademy.MinerProject.Entity.Course;
 import com.TaasheeTrainigAcademy.MinerProject.Entity.Users;
-import com.TaasheeTrainigAcademy.MinerProject.Services.TrainigAcademyServicesImplementation;
 import com.TaasheeTrainigAcademy.MinerProject.Services.TrainingAcademyServices;
 
 
@@ -44,6 +43,7 @@ public class RootController {
 		return "homePage";
 	}
 	@GetMapping("/adminHomePage")
+	@PreAuthorize(value = "hasRole('ADMIN')")
 	public String AdminHomePage(ModelMap modelMap)
 	{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -62,21 +62,28 @@ public class RootController {
 		return "adminHomePage";
 	}
 	@GetMapping("/getInstructorCourses")
+	@PreAuthorize(value = "hasRole('ADMIN')")
+
 	private List<String> getCoursesByInstructorId(int id) {
 		return trainingAcademyServices.getCoursesByInstructorId(id);
 	}
 	@GetMapping("/addUser")
+	@PreAuthorize(value = "hasRole('ADMIN') || hasRole('INSTRUCTOR')")
+
 	public String getAddForm()
 	{
 		return "addOrUpdateUser";
 	}
+	
 	@GetMapping("/getaddCourseForm")
+	@PreAuthorize(value = "hasRole('ADMIN')")
 	public String getCourseForm()
 	{
 		return "addCourse";
 	}
 	
 	@GetMapping("/getAssignCourseForm")
+	@PreAuthorize(value = "hasRole('ADMIN') || hasRole('INSTRUCTOR')")
 	public String getAssignForm(ModelMap modelMap)
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -93,6 +100,7 @@ public class RootController {
 		return "assignCourse";
 	}
 	@GetMapping("/getUserById")
+	@PreAuthorize(value = "hasRole('ADMIN') || hasRole('INSTRUCTOR')")
 	public String getUserById(@RequestParam int userId, ModelMap modelMap)
 	{
 		Users user=trainingAcademyServices.getUserById(userId);
@@ -100,6 +108,7 @@ public class RootController {
 		return "addOrUpdateUser";
 	}
 	@GetMapping("/getCourseById")
+	@PreAuthorize(value = "hasRole('ADMIN')")
 	public String getCourseById(@RequestParam int courseId, ModelMap modelMap)
 	{
 		Course user=trainingAcademyServices.getCourseById(courseId);
@@ -107,18 +116,21 @@ public class RootController {
 		return "addCourse";
 	}
 	@GetMapping("/removeInstructorById")
+	@PreAuthorize(value = "hasRole('ADMIN')")
 	public String removeInstructorById(@RequestParam int instructorId, ModelMap modelMap)
 	{
 		trainingAcademyServices.removeInstructorById(instructorId);
 		return AdminHomePage(modelMap);
 	}
 	@GetMapping("/removeCourseById")
+	@PreAuthorize(value = "hasRole('ADMIN') ")
 	public String removeCourseById(@RequestParam int courseId, ModelMap modelMap)
 	{
 		trainingAcademyServices.removeCourseById(courseId);
 		return AdminHomePage(modelMap);
 	}
 	@PostMapping("/userUpdate")
+	@PreAuthorize(value = "hasRole('ADMIN') || hasRole('INSTRUCTOR')")
 	public String UpdateUser(@RequestParam int age,@RequestParam String name, @RequestParam String city, @RequestParam int id, ModelMap modelMap)
 	{
 		
@@ -135,6 +147,7 @@ public class RootController {
 	    }
 	}
 	@PostMapping("/updateCourse")
+	@PreAuthorize(value = "hasRole('ADMIN')")
 	public String UpdateCourse(@RequestParam int id,@RequestParam String name, @RequestParam String description, ModelMap modelMap)
 	{
 		
@@ -142,6 +155,7 @@ public class RootController {
 		return AdminHomePage(modelMap);
 	}
 	@PostMapping("/assignCourse")
+	@PreAuthorize(value = "hasRole('ADMIN') || hasRole('INSTRUCTOR')")
 	public String AssignCourse(@RequestParam int id,@RequestParam int cid, ModelMap modelMap)
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -158,6 +172,7 @@ public class RootController {
 	    }
 	}
 	@PostMapping("/userDataSubmit")
+	@PreAuthorize(value = "hasRole('ADMIN') || hasRole('INSTRUCTOR')")
 	public String addUser(@RequestParam int age,@RequestParam String name, @RequestParam String city,@RequestParam String username, @RequestParam String password, ModelMap modelMap)
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -181,12 +196,14 @@ public class RootController {
 	    
 	}
 	@PostMapping("/addCourse")
+	@PreAuthorize(value = "hasRole('ADMIN')")
 	public String addCourse(@RequestParam String name,@RequestParam String description, ModelMap modelMap)
 	{
 		trainingAcademyServices.addCourse(name,description);
 		return AdminHomePage(modelMap);
 	}
 	@GetMapping("/instructorHomePage")
+	@PreAuthorize(value = "hasRole('INSTRUCTOR')")
 	public String InstructorHomePage(ModelMap modelMap)
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -200,6 +217,7 @@ public class RootController {
 		return "instructorHomePage";
 	}
 	@GetMapping("/studentHomePage")
+	@PreAuthorize(value = "hasRole('STUDENT')")
 	public String StudentHomePage(ModelMap modelMap)
 	{
        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -211,6 +229,8 @@ public class RootController {
 		return "studentHomePage";
 	}
 	@GetMapping("/getCoursePage")
+	@PreAuthorize(value = "hasRole('STUDENT')")
+
 	public String getCoursePage(ModelMap modelMap, @RequestParam int courseId)
 	{
 		Users Instructor=trainingAcademyServices.getInstructorByCourseId(courseId);
